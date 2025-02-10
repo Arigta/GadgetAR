@@ -126,7 +126,7 @@ $barang = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="container mt-5">
         <div class="jumbotron text-center">
-            <h1 class="animate__animated animate__fadeInDown">Selamat Datang, <?= htmlspecialchars($_SESSION['nama']); ?> di GadgetAR!</h1>
+            <h1 class="animate__animated animate__fadeInDown">Selamat Datang di GadgetAR, <?= htmlspecialchars($_SESSION['nama']); ?>!</h1>
             <p class="animate__animated animate__fadeInDown">Temukan berbagai perangkat canggih dengan harga terbaik. Belanja mudah, cepat, dan aman hanya di sini!</p>
         </div>
         <div class="mt-4">
