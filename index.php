@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gadget Online Store</title>
+    <title>GadgetAR Online Shop</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -59,7 +59,7 @@
     <div class="container hero">
         <div class="row">
             <div class="col-lg-6 text-center text-lg-start d-flex flex-column justify-content-center">
-                <h1 class="neon-text">Welcome to Gadget Online Store</h1>
+                <h1 class="neon-text">Welcome to GadgetAR Online Shop</h1>
                 <p class="mt-4">Discover the latest gadgets with unbeatable deals! Start your journey with us today.</p>
                 <div class="mt-4">
                     <a href="login.php" class="btn btn-custom me-3">Masuk</a>
