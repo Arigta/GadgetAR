@@ -6,6 +6,7 @@
     <title>GadgetAR Online Shop</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+
         body {
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             color: #fff;
@@ -53,6 +54,7 @@
             color: #fff;
             text-shadow: 0 0 5px #ff004c, 0 0 10px #ff004c, 0 0 20px #6a0dad, 0 0 30px #001eff;
         }
+        
     </style>
 </head>
 <body>
@@ -62,7 +64,7 @@
                 <h1 class="neon-text">Welcome to GadgetAR Online Shop</h1>
                 <p class="mt-4">Discover the latest gadgets with unbeatable deals! Start your journey with us today.</p>
                 <div class="mt-4">
-                    <a href="login.php" class="btn btn-custom me-3">Masuk</a>
+                    <a href="login.php" class="btn btn-custom me-3">Masuk</a> 
                     <a href="register.php" class="btn btn-custom">Mendaftar</a>
                     
                 </div>
