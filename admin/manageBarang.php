@@ -13,16 +13,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama_barang = $_POST['nama_barang'];
     $harga_barang = $_POST['harga_barang'];
     $stok = $_POST['stok'];
+    $deskripsi = $_POST['deskripsi'];
     $gambar_barang = $_FILES['gambar_barang']['name'];
     $tmp_name = $_FILES['gambar_barang']['tmp_name'];
 
     // Upload file gambar ke folder img
     if (move_uploaded_file($tmp_name, "../asset/img/" . $gambar_barang)) {
-        $stmt = $conn->prepare("INSERT INTO barang (nama_barang, harga_barang, stok, gambar_barang) VALUES (:nama_barang, :harga_barang, :stok, :gambar_barang)");
+        $stmt = $conn->prepare("INSERT INTO barang (nama_barang, harga_barang, stok, deskripsi, gambar_barang) VALUES (:nama_barang, :harga_barang, :stok, :deskripsi, :gambar_barang)");
         $stmt->execute([
             ':nama_barang' => $nama_barang,
             ':harga_barang' => $harga_barang,
             ':stok' => $stok,
+            ':deskripsi' => $deskripsi,
             ':gambar_barang' => $gambar_barang
         ]);
         $message = "Barang berhasil ditambahkan!";
@@ -163,6 +165,10 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <input type="number" class="form-control" id="stok" name="stok" required>
                 </div>
                 <div class="mb-3">
+                    <label for="deskripsi" class="form-label" style="color:white">Deskripsi</label>
+                    <textarea class="form-control" id="deskripsi" name="deskripsi" required></textarea>
+                </div>
+                <div class="mb-3">
                     <label for="gambar_barang" class="form-label" style="color:white">Gambar Barang</label>
                     <input type="file" class="form-control" id="gambar_barang" name="gambar_barang" required>
                 </div>
@@ -191,6 +197,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <th>Nama Barang</th>
                         <th>Harga</th>
                         <th>Stok</th>
+                        <th>Deskripsi</th>
                         <th>Gambar</th>
                         <th>Aksi</th>
                     </tr>
@@ -202,6 +209,8 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?= htmlspecialchars($row['nama_barang']) ?></td>
                             <td>Rp <?= number_format($row['harga_barang'], 0, ',', '.') ?></td>
                             <td><?= htmlspecialchars($row['stok']) ?></td>
+                            <td><?= strlen($row['deskripsi']) > 30 ? htmlspecialchars(substr($row['deskripsi'], 0, 30)) . '...' : htmlspecialchars($row['deskripsi']) ?></td>
+
                             <td><img src="../asset/img/<?= htmlspecialchars($row['gambar_barang']) ?>" alt="Gambar Barang" width="50"></td>
                             <td>
                                 <a href="edit_barang.php?id=<?= $row['id_barang'] ?>" class="btn btn-warning btn-sm">Edit</a>

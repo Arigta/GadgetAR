@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama_barang = $_POST['nama_barang'];
     $harga_barang = $_POST['harga_barang'];
     $stok = $_POST['stok'];
+    $deskripsi = $_POST['deskripsi'];
     $gambar_barang_lama = $_POST['gambar_barang_lama'];
 
     // Jika ada gambar baru, upload dan ganti gambar lama
@@ -40,11 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Update data barang
-    $stmt = $conn->prepare("UPDATE barang SET nama_barang = :nama_barang, harga_barang = :harga_barang, stok = :stok, gambar_barang = :gambar_barang WHERE id_barang = :id_barang");
+    $stmt = $conn->prepare("UPDATE barang SET nama_barang = :nama_barang, harga_barang = :harga_barang, stok = :stok, deskripsi = :deskripsi, gambar_barang = :gambar_barang WHERE id_barang = :id_barang");
     $stmt->execute([
         ':nama_barang' => $nama_barang,
         ':harga_barang' => $harga_barang,
         ':stok' => $stok,
+        ':deskripsi'=>$deskripsi,
         ':gambar_barang' => $gambar_barang,
         ':id_barang' => $id_barang
     ]);
@@ -149,6 +151,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="mb-3">
                     <label for="stok" class="form-label" style="color:white">Stok Barang</label>
                     <input type="number" class="form-control" id="stok" name="stok" value="<?= htmlspecialchars($barang['stok']) ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="deskripsi" class="form-label" style="color:white">Deskripsi</label>
+                    <textarea class="form-control" id="deskripsi" name="deskripsi" value="<?= htmlspecialchars($barang['deskripsi']) ?>" required></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="gambar_barang" class="form-label" style="color:white">Gambar Barang</label>
