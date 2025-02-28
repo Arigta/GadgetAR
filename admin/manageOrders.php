@@ -182,13 +182,13 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php if (!empty($orders)): ?>
                             <?php foreach ($orders as $order): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($order['id_order']) ?></td>
+                                    <td> <?= htmlspecialchars($order['id_order']) ?></td>
                                     <td><?= htmlspecialchars($order['id_user']) ?></td>
                                     <td><?= htmlspecialchars($order['nama_user']) ?></td>
                                     <td><?= htmlspecialchars($order['nama_produk']) ?></td>
                                     <td><?= htmlspecialchars($order['qty']) ?></td>
-                                    <td><?= htmlspecialchars($order['metode_bayar']) ?></td> 
-                                    <td><?= htmlspecialchars($order['alamat']) ?></td>
+                                    <td> <?= htmlspecialchars($order['metode_bayar']) ?></td> 
+                                    <td> <?= htmlspecialchars($order['alamat']) ?></td>
                                     
                                     <td><?= htmlspecialchars($order['total_harga']) ?></td>
                                     <td><?= htmlspecialchars($order['tanggal']) ?></td>
@@ -199,8 +199,8 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </td>
                                     <td>
                                         <?php if ($order['status'] === 'PENDING'): ?>
-                                            <a href="updateOrder.php?id=<?= $order['id_order'] ?>&status=ORDERED" class="btn btn-success btn-sm">ORDERED</a>
-                                            <a href="updateOrder.php?id=<?= $order['id_order'] ?>&status=REJECTED" class="btn btn-danger btn-sm">REJECTED</a>
+                                            <a href="updateOrder.php?id= <?= $order['id_order'] ?>&status=ORDERED" class="btn btn-success btn-sm">ORDERED</a>
+                                            <a href="updateOrder.php?id= <?= $order['id_order'] ?>&status=REJECTED" class="btn btn-danger btn-sm">REJECTED</a>
                                         <?php else: ?>
                                             <span class="text-muted">No Actions</span>
                                         <?php endif; ?>

@@ -148,7 +148,7 @@ $orderan = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </td>
                                     <td>
                                         <?php if ($row['status'] === 'PENDING'): ?>
-                                            <a href="cancel_order.php?id=<?= $row['id_order'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')">Cancel</a>
+                                            <a href="cancel_order.php?id= <?= $row['id_order'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')">Cancel</a>
                                         <?php else: ?>
                                             <span class="text-muted">Tidak ada aksi</span>
                                         <?php endif; ?>

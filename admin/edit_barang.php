@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':nama_barang' => $nama_barang,
         ':harga_barang' => $harga_barang,
         ':stok' => $stok,
-        ':deskripsi'=>$deskripsi,
+        ':deskripsi' => $deskripsi,
         ':gambar_barang' => $gambar_barang,
         ':id_barang' => $id_barang
     ]);
@@ -154,7 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="mb-3">
                     <label for="deskripsi" class="form-label" style="color:white">Deskripsi</label>
-                    <textarea class="form-control" id="deskripsi" name="deskripsi" value="<?= htmlspecialchars($barang['deskripsi']) ?>" required></textarea>
+                    <textarea class="form-control" id="deskripsi" name="deskripsi" required><?= htmlspecialchars($barang['deskripsi']) ?></textarea>
+
                 </div>
                 <div class="mb-3">
                     <label for="gambar_barang" class="form-label" style="color:white">Gambar Barang</label>
