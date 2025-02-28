@@ -17,7 +17,7 @@ if (isset($_GET['id'])) {
         $stmt = $conn->prepare("
             SELECT * 
             FROM orderan 
-            WHERE id_oder = :id_order 
+            WHERE id_order = :id_order 
             AND id_user = :id_user 
             AND status = 'PENDING'
         ");

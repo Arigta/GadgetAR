@@ -140,13 +140,9 @@ $rata_rating = $rata_rating !== null ? round($rata_rating, 1) : 0.0;
                     <p><strong>Stok:</strong> <?= htmlspecialchars($barang['stok']) ?></p>
 
                     <!-- Form Order -->
-                    <form action="metode_pembayaran.php" method="POST">
+                    <form id="orderForm" action="metode_pembayaran.php" method="POST" onsubmit="return cekStok()">
                         <input type="hidden" name="id_barang" value="<?= $id_barang ?>">
-                        <div class="mb-3">
-                            <label for="jumlah_beli" class="form-label">Jumlah Beli</label>
-                            <input type="number" name="jumlah_beli" class="form-control" min="1" max="<?= $barang['stok'] ?>" required>
-                        </div>
-                        <button type="submit" class="btn btn-order w-100">Order</button>
+                        <button type="submit" id="orderBtn" class="btn btn-order w-100">Order</button>
                     </form>
 
 
@@ -203,6 +199,16 @@ $rata_rating = $rata_rating !== null ? round($rata_rating, 1) : 0.0;
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    function cekStok() {
+        var stok = <?= (int) $barang['stok'] ?>;
+        if (stok <= 0) {
+            alert("Stok habis! Tidak bisa melakukan pemesanan.");
+            return false; // Mencegah form dikirim
+        }
+        return true; // Lanjutkan submit form jika stok masih ada
+    }
+</script>
 </body>
 
 </html>

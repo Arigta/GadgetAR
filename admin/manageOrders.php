@@ -15,38 +15,42 @@ $status = isset($_GET['status']) ? $_GET['status'] : '';
 if (!empty($status)) {
     $stmt = $conn->prepare("
         SELECT 
-            o.id_oder, 
+            o.id_order, 
             o.id_user, 
             o.id_barang, 
             u.nama AS nama_user, 
             b.nama_barang AS nama_produk, 
             o.qty, 
-            o.total_harga, 
+             o.metode_bayar,
+            o.total_harga,
+            o.alamat, 
             o.status,
             o.tanggal
         FROM orderan o
         JOIN user u ON o.id_user = u.id_user
         JOIN barang b ON o.id_barang = b.id_barang
         WHERE o.status = :status
-        ORDER BY o.id_oder ASC
+        ORDER BY o.id_order ASC
     ");
     $stmt->execute([':status' => $status]);
 } else {
     $stmt = $conn->prepare("
         SELECT 
-            o.id_oder, 
+            o.id_order, 
             o.id_user, 
             o.id_barang, 
             u.nama AS nama_user, 
             b.nama_barang AS nama_produk, 
             o.qty, 
+            o.metode_bayar,
             o.total_harga, 
+            o.alamat,
             o.status,
             o.tanggal
         FROM orderan o
         JOIN user u ON o.id_user = u.id_user
         JOIN barang b ON o.id_barang = b.id_barang
-        ORDER BY o.id_oder ASC
+        ORDER BY o.id_order ASC
     ");
     $stmt->execute();
 }
@@ -167,6 +171,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <th>Nama User</th>
                             <th>Nama Produk</th>
                             <th>Qty</th>
+                            <th>Metode Bayar</th>
                             <th>Total Harga</th>
                             <th>Tanggal</th>
                             <th>Status</th>
@@ -177,11 +182,14 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php if (!empty($orders)): ?>
                             <?php foreach ($orders as $order): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($order['id_oder']) ?></td>
+                                    <td><?= htmlspecialchars($order['id_order']) ?></td>
                                     <td><?= htmlspecialchars($order['id_user']) ?></td>
                                     <td><?= htmlspecialchars($order['nama_user']) ?></td>
                                     <td><?= htmlspecialchars($order['nama_produk']) ?></td>
                                     <td><?= htmlspecialchars($order['qty']) ?></td>
+                                    <td><?= htmlspecialchars($order['metode_bayar']) ?></td> 
+                                    <td><?= htmlspecialchars($order['alamat']) ?></td>
+                                    
                                     <td><?= htmlspecialchars($order['total_harga']) ?></td>
                                     <td><?= htmlspecialchars($order['tanggal']) ?></td>
                                     <td>
@@ -191,8 +199,8 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </td>
                                     <td>
                                         <?php if ($order['status'] === 'PENDING'): ?>
-                                            <a href="updateOrder.php?id=<?= $order['id_oder'] ?>&status=ORDERED" class="btn btn-success btn-sm">ORDERED</a>
-                                            <a href="updateOrder.php?id=<?= $order['id_oder'] ?>&status=REJECTED" class="btn btn-danger btn-sm">REJECTED</a>
+                                            <a href="updateOrder.php?id=<?= $order['id_order'] ?>&status=ORDERED" class="btn btn-success btn-sm">ORDERED</a>
+                                            <a href="updateOrder.php?id=<?= $order['id_order'] ?>&status=REJECTED" class="btn btn-danger btn-sm">REJECTED</a>
                                         <?php else: ?>
                                             <span class="text-muted">No Actions</span>
                                         <?php endif; ?>

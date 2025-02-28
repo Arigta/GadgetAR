@@ -14,7 +14,7 @@ $user_id = $_SESSION['id_user'];
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $stmt = $conn->prepare("
     SELECT 
-        o.id_oder, 
+        o.id_order, 
         u.nama AS nama_user, 
         b.nama_barang, 
         o.qty, 
@@ -135,7 +135,7 @@ $orderan = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php if (count($orderan) > 0): ?>
                             <?php foreach ($orderan as $row): ?>
                                 <tr>
-                                    <td><?= $row['id_oder'] ?></td>
+                                    <td><?= $row['id_order'] ?></td>
                                     <td><?= $row['nama_user'] ?></td>
                                     <td><?= $row['nama_barang'] ?></td>
                                     <td><?= $row['qty'] ?></td>
@@ -148,7 +148,7 @@ $orderan = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </td>
                                     <td>
                                         <?php if ($row['status'] === 'PENDING'): ?>
-                                            <a href="cancel_order.php?id=<?= $row['id_oder'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')">Cancel</a>
+                                            <a href="cancel_order.php?id=<?= $row['id_order'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')">Cancel</a>
                                         <?php else: ?>
                                             <span class="text-muted">Tidak ada aksi</span>
                                         <?php endif; ?>

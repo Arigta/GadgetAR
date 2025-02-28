@@ -12,14 +12,14 @@ if (!isset($_SESSION['id_user']) || $_SESSION['role'] !== 'admin') {
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 if (!empty($search)) {
     $stmt = $conn->prepare("SELECT u.id_user, u.nama, u.username, u.role, 
-                            (SELECT COUNT(o.id_oder) FROM orderan o WHERE o.id_user = u.id_user) AS jumlah_produk 
+                            (SELECT COUNT(o.id_order) FROM orderan o WHERE o.id_user = u.id_user) AS jumlah_produk 
                             FROM user u 
                             WHERE u.nama LIKE :search OR u.username LIKE :search 
                             ORDER BY u.id_user ASC");
     $stmt->execute([':search' => '%' . $search . '%']);
 } else {
     $stmt = $conn->prepare("SELECT u.id_user, u.nama, u.username, u.role, 
-                            (SELECT COUNT(o.id_oder) FROM orderan o WHERE o.id_user = u.id_user) AS jumlah_produk 
+                            (SELECT COUNT(o.id_order) FROM orderan o WHERE o.id_user = u.id_user) AS jumlah_produk 
                             FROM user u 
                             ORDER BY u.id_user ASC");
     $stmt->execute();
