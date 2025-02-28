@@ -159,7 +159,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $rata_rating = $rata_rating !== null ? round($rata_rating, 1) : 0.0;
     ?>
         <div class="col-md-4 mb-4">
-            <div class="card animate__animated animate__zoomIn" onclick="window.location.href='detail_barang.php?id=<?= $row['id_barang'] ?>'">
+            <div class="card animate__animated animate__zoomIn" onclick="window.location.href='ad_detail_barang.php?id=<?= $row['id_barang'] ?>'">
                 <img src="../asset/img/<?= htmlspecialchars($row['gambar_barang']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['nama_barang']) ?>">
                 <div class="card-body">
                     

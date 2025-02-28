@@ -200,40 +200,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            document.querySelectorAll('.btn-order').forEach(button => {
-                button.addEventListener('click', function() {
-                    const idBarang = this.getAttribute('data-id');
-                    const namaBarang = this.getAttribute('data-nama');
-                    const qty = prompt(`Masukkan jumlah untuk memesan ${namaBarang}:`, 1);
-
-                    if (qty && !isNaN(qty) && qty > 0) {
-                        fetch('order_process.php', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    id_barang: idBarang,
-                                    qty: qty
-                                })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    alert('Pesanan dalam status "Pending" berhasil dibuat!');
-                                    window.location.href = 'orderan.php';
-                                } else {
-                                    alert(data.message || 'Terjadi kesalahan!');
-                                }
-                            })
-                            .catch(() => {
-                                alert('Terjadi kesalahan saat memproses pesanan.');
-                            });
-                    }
-                });
-            });
-        </script>
+      
 </body>
 
 </html>
