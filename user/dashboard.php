@@ -19,7 +19,7 @@ if ($search) {
     $stmt->bindValue(':search', "%$search%");
 }
 $stmt->execute();
-$barang = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -48,11 +48,21 @@ $barang = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .card {
-            background-color: #1f1f1f;
+            background: #1f1f1f;
             border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
             color: #fff;
             padding: 20px
         }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
 
         .card img {
             max-height: 250px;
@@ -139,69 +149,91 @@ $barang = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h2 class="text-center mb-4">Daftar Produk</h2>
 
         <div class="row">
-            <?php foreach ($barang as $b) : ?>
+            <?php foreach ($results as $row) :
+                $id_barang = $row['id_barang'];
+
+                // Hitung jumlah pesanan yang memiliki status "ordered"
+                $stmt = $conn->prepare("SELECT COUNT(*) FROM orderan WHERE id_barang = ? AND status = 'ordered'");
+                $stmt->execute([$id_barang]);
+                $total_terjual = $stmt->fetchColumn() ?? 0;
+
+                // Hitung rata-rata rating dari tabel ulasan
+                $stmt = $conn->prepare("SELECT AVG(rate) as rata_rating FROM ulasan WHERE id_barang = ?");
+                $stmt->execute([$id_barang]);
+                $rata_rating = $stmt->fetchColumn();
+                $rata_rating = $rata_rating !== null ? round($rata_rating, 1) : 0.0;
+            ?>
                 <div class="col-md-4 mb-4">
-                    <div class="card animate__animated animate__zoomIn">
-                        <img src="../asset/img/<?= $b['gambar_barang']; ?>" class="card-img-top" alt="<?= $b['nama_barang']; ?>">
+                    <div class="card animate__animated animate__zoomIn" onclick="window.location.href='detail_barang.php?id=<?= $row['id_barang'] ?>'">
+                        <img src="../asset/img/<?= htmlspecialchars($row['gambar_barang']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['nama_barang']) ?>">
                         <div class="card-body">
-                            <h5 class="card-title"><?= $b['nama_barang']; ?></h5>
-                            <p class="card-text">Harga: Rp <?= number_format($b['harga_barang'], 0, ',', '.'); ?></p>
-                            <p class="card-text">Stok: <?= $b['stok']; ?></p>
-                            <button class="btn btn-order w-100" data-id="<?= $b['id_barang']; ?>" data-nama="<?= $b['nama_barang']; ?>">Order</button>
+
+                            <!-- Nama Barang + Terjual + Rating -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title m-0"><?= htmlspecialchars($row['nama_barang']) ?></h5>
+                                <span class="badge bg-success">Terjual: <?= $total_terjual ?></span>
+                                <span class="badge bg-danger">⭐ <?= number_format($rata_rating, 1) ?></span>
+                            </div>
+
+                            <!-- Harga + Stok -->
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <p class="card-text fw-bold text-end">Rp <?= number_format($row['harga_barang'], 0, ',', '.') ?></p>
+                                <span class="text-white">Stok: <?= htmlspecialchars($row['stok']) ?></span>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
-    </div>
 
-    <footer class="bg-dark text-center text-white py-3 mt-5">
-        <div class="container">
-            <p>Copyright © GadgetAR Online Shop</p>
-            <a href="https://github.com/Arigta?tab=repositories" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub Logo" width="30" height="30" style="filter: invert(1);">
-            </a>
-        </div>
-    </footer>
-
+        <footer class="bg-dark text-center text-white py-3 mt-5">
+            <div class="container">
+                <p>Copyright © GadgetAR Online Shop</p>
+                <a href="https://github.com/Arigta?tab=repositories" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub Logo" width="30" height="30" style="filter: invert(1);">
+                </a>
+            </div>
+        </footer>
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.querySelectorAll('.btn-order').forEach(button => {
-            button.addEventListener('click', function() {
-                const idBarang = this.getAttribute('data-id');
-                const namaBarang = this.getAttribute('data-nama');
-                const qty = prompt(`Masukkan jumlah untuk memesan ${namaBarang}:`, 1);
 
-                if (qty && !isNaN(qty) && qty > 0) {
-                    fetch('order_process.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                id_barang: idBarang,
-                                qty: qty
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.querySelectorAll('.btn-order').forEach(button => {
+                button.addEventListener('click', function() {
+                    const idBarang = this.getAttribute('data-id');
+                    const namaBarang = this.getAttribute('data-nama');
+                    const qty = prompt(`Masukkan jumlah untuk memesan ${namaBarang}:`, 1);
+
+                    if (qty && !isNaN(qty) && qty > 0) {
+                        fetch('order_process.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    id_barang: idBarang,
+                                    qty: qty
+                                })
                             })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('Pesanan dalam status "Pending" berhasil dibuat!');
-                                window.location.href = 'orderan.php';
-                            } else {
-                                alert(data.message || 'Terjadi kesalahan!');
-                            }
-                        })
-                        .catch(() => {
-                            alert('Terjadi kesalahan saat memproses pesanan.');
-                        });
-                }
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('Pesanan dalam status "Pending" berhasil dibuat!');
+                                    window.location.href = 'orderan.php';
+                                } else {
+                                    alert(data.message || 'Terjadi kesalahan!');
+                                }
+                            })
+                            .catch(() => {
+                                alert('Terjadi kesalahan saat memproses pesanan.');
+                            });
+                    }
+                });
             });
-        });
-    </script>
+        </script>
 </body>
 
 </html>
